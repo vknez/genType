@@ -52,8 +52,8 @@ let traslateDeclarationKind =
     typeAttributes |> Annotation.getAttributeImportRenaming;
 
   let returnTypeDeclaration = (typeDeclaration: CodeItem.typeDeclaration) =>
-    opaque == Some(true) ?
-      [{...typeDeclaration, importTypes: []}] : [typeDeclaration];
+    opaque == Some(true)
+      ? [{...typeDeclaration, importTypes: []}] : [typeDeclaration];
 
   let handleGeneralDeclaration =
       (translation: TranslateTypeExprFromTypes.translation) => {
@@ -202,7 +202,10 @@ let traslateDeclarationKind =
              };
            {mutable_, name, optional, type_: type1};
          });
-    let optType = Some(Record(fields));
+    let optType =
+      Some(
+        config.recordsAsObjects ? Object(Closed, fields) : Record(fields),
+      );
 
     {
       CodeItem.importTypes,
